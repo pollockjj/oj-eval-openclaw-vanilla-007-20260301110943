@@ -77,6 +77,6 @@ Expression *readT(TokenScanner &scanner) {
 int precedence(std::string token) {
     if (token == "=") return 1;
     if (token == "+" || token == "-") return 2;
-    if (token == "*" || token == "/") return 3;
+    if (token == "*" || token == "/" || token == "%") return 3;
     return 0;
 }
