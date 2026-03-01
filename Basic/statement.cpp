@@ -2,6 +2,7 @@
 
 #include <cctype>
 #include <iostream>
+#include <memory>
 #include <set>
 #include <vector>
 
@@ -239,9 +240,9 @@ Statement *parseStatement(const std::string &line) {
         }
         int target = parseIntOrSyntaxError(targetText);
 
-        Expression *lhs = parseExpressionOrSyntaxError(lhsText);
-        Expression *rhs = parseExpressionOrSyntaxError(rhsText);
-        return new IfStatement(lhs, tokens[relPos], rhs, target);
+        std::unique_ptr<Expression> lhs(parseExpressionOrSyntaxError(lhsText));
+        std::unique_ptr<Expression> rhs(parseExpressionOrSyntaxError(rhsText));
+        return new IfStatement(lhs.release(), tokens[relPos], rhs.release(), target);
     }
 
     error("SYNTAX ERROR");

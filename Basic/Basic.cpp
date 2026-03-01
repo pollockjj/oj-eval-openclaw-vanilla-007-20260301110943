@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <memory>
 
 #include "evalstate.hpp"
 #include "program.hpp"
@@ -116,11 +117,10 @@ void processLine(std::string line, Program &program, EvalState &state) {
         return;
     }
 
-    Statement *stmt = parseStatement(line);
+    std::unique_ptr<Statement> stmt(parseStatement(line));
     program.setEndFlag(false);
     program.setJumpTarget(-1);
     stmt->execute(state, program);
-    delete stmt;
 }
 } // namespace
 
